@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "276235852350",
+    "firebase_url": "https://blue-chip-trader.firebaseio.com",
+    "project_id": "blue-chip-trader",
+    "storage_bucket": "blue-chip-trader.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276235852350:android:ce27cc455f6929496a0f6f",
+        "android_client_info": {
+          "package_name": "co.graphmedia.bluechip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276235852350-iiucltm3c09isadti7j62j1mkls2t3qc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.graphmedia.bluechip",
+            "certificate_hash": "72dce26b247a200a8b59b216fbf1f06f58fe1620"
+          }
+        },
+        {
+          "client_id": "276235852350-jnu3rs2mtjuvqt59n9sgu0rptg8v2k6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj-CbiYriJmcurszXGSG1DVz8XXTvfVGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276235852350-jnu3rs2mtjuvqt59n9sgu0rptg8v2k6b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
