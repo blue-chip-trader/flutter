@@ -31,4 +31,6 @@ abstract class Routes{
   static const AUTH = '/auth';
   static const EXPLORE = '/explore';
   static const OTP = '/otp';
+  static const CONFIRMDETAILS = '/confirmdetails';
+  static const MESSAGES = '/messages';
 }

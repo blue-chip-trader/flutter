@@ -10,6 +10,7 @@ class MyTheme {
   Color bcNavBarColor = Color(0xFF151516);
   Color bcActiveNavIcon = Color(0xFF0B78BE);
   Color bcInactiveNavIcon = Color(0xFFFFFFFF);
+  Color bcSignalText = Color(0xFFDADADA);
 }
 
 class MyThemeLight {

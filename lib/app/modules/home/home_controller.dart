@@ -7,11 +7,12 @@ class HomeController extends GetxController {
   //TODO: Implement HomeController
   FirebaseAuth auth = FirebaseAuth.instance;
   final count = 0.obs;
+  RxBool notifs = true.obs;
 
   @override
   void onInit() async {
     if (auth.currentUser != null) {
-      print("still logged in, Code: "+auth.currentUser.uid);
+      print("still logged in, Code: " + auth.currentUser.uid);
     }
   }
 
@@ -22,4 +23,5 @@ class HomeController extends GetxController {
   void onClose() {}
 
   increment() => count.value++;
+  removeDot() => notifs.value = false;
 }

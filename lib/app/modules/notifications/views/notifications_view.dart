@@ -1,5 +1,6 @@
 import 'package:bluechip/app/modules/notifications/widgets/notification_card.dart';
 import 'package:bluechip/app/modules/signals_active/controllers/signals_active_controller.dart';
+import 'package:bluechip/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bluechip/app/modules/notifications/controllers/notifications_controller.dart';
@@ -11,10 +12,11 @@ class NotificationsView extends GetView<NotificationsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF181818),
+      backgroundColor: MyTheme().bcBackground,
       appBar: AppBar(
         title: Text('Notifications'),
         centerTitle: true,
+        backgroundColor: MyTheme().bcBackground,
       ),
       body: ListView(
         children: [
@@ -49,3 +51,4 @@ class NotificationsView extends GetView<NotificationsController> {
     );
   }
 }
+

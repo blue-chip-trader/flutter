@@ -2,9 +2,11 @@ import 'package:bluechip/app/modules/signals_active/widgets/signal_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bluechip/app/modules/signals_active/controllers/signals_active_controller.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SignalsActiveView extends GetView<SignalsActiveController> {
-  SignalsActiveController controller = Get.put(SignalsActiveController());
+  final SignalsActiveController controller = Get.put(SignalsActiveController());
+
   @override
   Widget build(BuildContext context) {
     return GetX<SignalsActiveController>(
@@ -12,6 +14,7 @@ class SignalsActiveView extends GetView<SignalsActiveController> {
         builder: (controller) {
           if (controller != null && controller.signals != null) {
             return ListView.builder(
+              physics: ClampingScrollPhysics(),
               itemCount: controller.signals.length,
               itemBuilder: (_, index) {
                 if (controller.signals[index].active) {
@@ -30,7 +33,9 @@ class SignalsActiveView extends GetView<SignalsActiveController> {
               },
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
         });
 

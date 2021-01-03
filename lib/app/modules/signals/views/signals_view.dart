@@ -1,3 +1,4 @@
+import 'package:bluechip/app/modules/home/home_controller.dart';
 import 'package:bluechip/app/modules/notifications/views/notifications_view.dart';
 import 'package:bluechip/app/modules/signals_active/views/signals_active_view.dart';
 import 'package:bluechip/app/modules/signals_history/views/signals_history_view.dart';
@@ -9,6 +10,7 @@ import 'package:bluechip/app/modules/signals/controllers/signals_controller.dart
 import 'package:get_storage/get_storage.dart';
 
 class SignalsView extends GetView<SignalsController> {
+  HomeController _homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     final appData = GetStorage();
@@ -16,7 +18,9 @@ class SignalsView extends GetView<SignalsController> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-            backgroundColor: _isDarkMode ? MyTheme().bcBackground : MyThemeLight().bcBackground,
+            backgroundColor: _isDarkMode
+                ? MyTheme().bcBackground
+                : MyThemeLight().bcBackground,
             appBar: AppBar(
               // title: Image.asset(
               //   'assets/images/bclogo.png',
@@ -30,10 +34,13 @@ class SignalsView extends GetView<SignalsController> {
                       BlueChipIcons.notification,
                     ),
                     onPressed: () {
+                      _homeController.removeDot();
                       Get.toNamed('/notifications');
                     })
               ],
-              backgroundColor: _isDarkMode ? MyTheme().bcAppBarColor : MyThemeLight().bcAppBarColor,
+              backgroundColor: _isDarkMode
+                  ? MyTheme().bcAppBarColor
+                  : MyThemeLight().bcAppBarColor,
               elevation: 5,
               bottom: TabBar(
                 indicator: UnderlineTabIndicator(

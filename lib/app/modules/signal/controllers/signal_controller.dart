@@ -14,7 +14,7 @@ class SignalController extends GetxController {
 
   final count = 0.obs;
 
-  Future getSignal(String id) async {
+  getSignal(String id) async {
     try {
       DocumentSnapshot _doc = await FirebaseFirestore.instance
           .collection("signals")

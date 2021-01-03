@@ -116,10 +116,10 @@ class ProfileView extends GetView<ProfileController> {
                                           trackColor: MyTheme().bcButtonColor,
                                           onChanged: updateFn),
                                   onUpdate: (value) {
-                                    appData.write("_isDark", value);
-                                    Get.changeTheme(Get.isDarkMode
-                                        ? ThemeData.light()
-                                        : ThemeData.dark());
+                                    // appData.write("_isDark", value);
+                                    // Get.changeTheme(Get.isDarkMode
+                                    //     ? ThemeData.light()
+                                    //     : ThemeData.dark());
                                   }),
                             ),
                           ),

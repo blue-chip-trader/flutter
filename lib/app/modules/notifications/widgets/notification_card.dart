@@ -1,4 +1,5 @@
 import 'package:bluechip/app/modules/signals_active/controllers/signals_active_controller.dart';
+import 'package:bluechip/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ class NotificationCard extends StatelessWidget {
         margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          color: Color(0xFF2A2B32),
+          color: MyTheme().bcPrimaryColor,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,7 +101,7 @@ class NotificationCard extends StatelessWidget {
               width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                color: Color(0xFF373842),
+                color: MyTheme().bcPrimaryColor2,
               ),
             )
           ],

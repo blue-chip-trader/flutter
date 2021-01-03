@@ -16,16 +16,21 @@ class Database {
       query.docs.forEach((element) {
         retVal.add(SignalModel.fromDocumentSnapshot(element));
       });
-      return retVal;
+      return retVal.toList();
     });
   }
 
   Future<SignalModel> findOne(String id) async {
-    var result = await _firestore.collection("signals").doc("forex").collection("signal").doc(id).get();
+    var result = await _firestore
+        .collection("signals")
+        .doc("forex")
+        .collection("signal")
+        .doc(id)
+        .get();
     return SignalModel.fromDocumentSnapshot(result);
   }
 
-  Future getSignal(String id) async {
+  Future<OneSignalModel>getSignal(String id) async {
     try {
       DocumentSnapshot _doc = await _firestore
           .collection("signals")
@@ -34,7 +39,7 @@ class Database {
           .doc(id)
           .get();
 
-      return SignalModel.fromDocumentSnapshot(_doc);
+      return OneSignalModel.fromDocumentSnapshot(documentSnapshot: _doc);
     } catch (e) {
       print(e);
       rethrow;

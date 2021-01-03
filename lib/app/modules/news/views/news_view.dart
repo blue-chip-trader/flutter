@@ -1,8 +1,29 @@
 import 'package:bluechip/app/modules/profile/widgets/profile_tile.dart';
 import 'package:bluechip/app/presentation/blue_chip_icons_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bluechip/app/modules/news/controllers/news_controller.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+
+void _onRefresh() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    
+    _refreshController.loadComplete();
+  }
 
 class NewsView extends GetView<NewsController> {
   @override
@@ -19,15 +40,8 @@ class NewsView extends GetView<NewsController> {
               // ),
               title: Text("News"),
               centerTitle: true,
-              actions: [
-                IconButton(
-                    icon: Icon(
-                      BlueChipIcons.search,
-                    ),
-                    onPressed: () {
-                      Get.toNamed('/search');
-                    })
-              ],
+              // 
+              
               backgroundColor: Color(0xFF0E0E0F),
               elevation: 5,
               bottom: TabBar(
@@ -46,31 +60,66 @@ class NewsView extends GetView<NewsController> {
             ),
             body: TabBarView(
               children: [
-                ListView(
-                  children: [
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                  ],
-                ),
-                ListView(
-                  children: [
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                  ],
-                ),
-                Text('Commodities'),
-                Text('Indices'),
-                Text('Stocks')
+                NewList(),
+                NewList(),
+                NewList(),
+                NewList(),
+                NewList(),
+               
               ],
             )));
+  }
+}
+
+class NewList extends StatelessWidget {
+  const NewList({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        header: WaterDropHeader(),
+        footer: CustomFooter(
+          builder: (BuildContext context,LoadStatus mode){
+            Widget body ;
+            if(mode==LoadStatus.idle){
+              body =  Text("pull up load");
+            }
+            else if(mode==LoadStatus.loading){
+              body =  CupertinoActivityIndicator();
+            }
+            else if(mode == LoadStatus.failed){
+              body = Text("Load Failed!Click retry!");
+            }
+            else if(mode == LoadStatus.canLoading){
+                body = Text("release to load more");
+            }
+            else{
+              body = Text("No more Data");
+            }
+            return Container(
+              height: 55.0,
+              child: Center(child:body),
+            );
+          },
+        ),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+          child: ListView(
+        children: [
+          NewsCard(),
+          NewsCard(),
+          NewsCard(),
+          NewsCard(),
+          NewsCard(),
+          NewsCard(),
+        ],
+      ),
+    );
   }
 }
 
@@ -118,7 +167,7 @@ class NewsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "An shdi sduhisud hushdfyu qqqwwe bhduhdgui hdfuihnjkhyusdf huhxcyugh",
+                        "South Korea Imports Unexpectedly Rise in December",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 13),

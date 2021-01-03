@@ -1,3 +1,7 @@
+import 'package:bluechip/app/modules/messages/views/messages_view.dart';
+import 'package:bluechip/app/modules/messages/bindings/messages_binding.dart';
+import 'package:bluechip/app/modules/confirmdetails/views/confirmdetails_view.dart';
+import 'package:bluechip/app/modules/confirmdetails/bindings/confirmdetails_binding.dart';
 import 'package:bluechip/app/modules/otp/views/otp_view.dart';
 import 'package:bluechip/app/modules/otp/bindings/otp_binding.dart';
 import 'package:bluechip/app/modules/explore/views/explore_view.dart';
@@ -56,7 +60,7 @@ import 'package:get/get.dart';
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.AUTH;
+  static const INITIAL = Routes.CONFIRMDETAILS;
 
   static final routes = [
     GetPage(
@@ -193,6 +197,16 @@ class AppPages {
       name: Routes.OTP, 
       page:()=> OtpView(), 
       binding: OtpBinding(),
+    ),
+    GetPage(
+      name: Routes.CONFIRMDETAILS, 
+      page:()=> ConfirmdetailsView(), 
+      binding: ConfirmdetailsBinding(),
+    ),
+    GetPage(
+      name: Routes.MESSAGES, 
+      page:()=> MessagesView(), 
+      binding: MessagesBinding(),
     ),
   ];
 }
