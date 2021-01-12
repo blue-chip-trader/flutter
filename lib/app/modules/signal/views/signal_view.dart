@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:bluechip/app/modules/home/home_controller.dart';
-import 'package:bluechip/app/modules/signals_active/controllers/signals_active_controller.dart';
 import 'package:bluechip/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,8 +7,7 @@ import 'package:bluechip/app/modules/signal/controllers/signal_controller.dart';
 import 'package:intl/intl.dart';
 
 class SignalView extends GetView<SignalController> {
-  SignalsActiveController _signalsActiveController =
-      Get.put(SignalsActiveController());
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +69,12 @@ class SignalView extends GetView<SignalController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("Profit/Loss"),
-                                    Text(data['active'] ? "Open" : "Closed")
+                                    Text(
+                                      data['p/l'] == null
+                                          ? "- - - - -"
+                                          : data['p/l'],
+                                      style: priceColor(data['p/l']),
+                                    )
                                   ],
                                 ),
                                 SizedBox(
@@ -99,8 +101,8 @@ class SignalView extends GetView<SignalController> {
                                     Text(data['closed at'] == null
                                         ? "- - - - -"
                                         : DateFormat.yMMMd()
-                                        .add_jm()
-                                        .format(data['closed at'].toDate()))
+                                            .add_jm()
+                                            .format(data['closed at'].toDate()))
                                   ],
                                 ),
                               ])),
@@ -130,7 +132,12 @@ class SignalView extends GetView<SignalController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Sell"),
+                                    Text(
+                                      data["direction"] ? "BUY" : "SELL",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: MyTheme().bcButtonColor),
+                                    ),
                                     Text("@" + data['price'])
                                   ],
                                 ),
@@ -179,3 +186,12 @@ class SignalView extends GetView<SignalController> {
 }
 
 //Center(child: Text(data['pair']));
+priceColor(String pl) {
+  if (pl != null) {
+    if (pl.contains("+")) {
+      return TextStyle(color: Colors.green);
+    } else {
+      return TextStyle(color: Colors.red);
+    }
+  }
+}

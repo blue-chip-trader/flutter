@@ -18,36 +18,7 @@ class NotificationsView extends GetView<NotificationsController> {
         centerTitle: true,
         backgroundColor: MyTheme().bcBackground,
       ),
-      body: ListView(
-        children: [
-          NotificationCard(
-          myindex: "2",
-          controller: _controller,
-          pair: "USDZAR",
-          price: "15.1234",
-          tp: "15.5432",
-          sl: "16.2345",
-          buy: false,
-        ),
-         NotificationCard(
-          myindex: "2",
-          controller: _controller,
-          pair: "USDZAR",
-          price: "15.1234",
-          tp: "15.5432",
-          sl: "16.2345",
-          buy: true,
-        ), NotificationCard(
-          myindex: "2",
-          controller: _controller,
-          pair: "USDZAR",
-          price: "15.1234",
-          tp: "15.5432",
-          sl: "16.2345",
-          buy: true,
-        ),
-        ],
-      )
+      body: Center(child: Text("You have no Notifications"),)
     );
   }
 }

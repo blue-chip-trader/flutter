@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class SearchController extends GetxController {
-  //TODO: Implement SearchController
+class ThisweekeventsController extends GetxController {
+  //TODO: Implement ThisweekeventsController
   
   final count = 0.obs;
 

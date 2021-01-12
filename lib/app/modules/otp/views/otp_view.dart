@@ -1,6 +1,8 @@
 import 'package:bluechip/app/modules/auth/controllers/auth_controller.dart';
+import 'package:bluechip/app/theme/theme.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bluechip/app/modules/otp/controllers/otp_controller.dart';
@@ -25,42 +27,47 @@ class OtpView extends GetView<OtpController> {
   Widget build(BuildContext context) {
     _authController.handleSignIn(SignInType.PHONE,phoneNumber);
     return Scaffold(
-        backgroundColor: Color(0xFF2A2B32),
+        backgroundColor: MyTheme().bcBackground,
         appBar: AppBar(
           title: Text('PhoneView'),
           centerTitle: true,
         ),
-        body: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 40),
-              child: Center(
-                child: Text(
-                  'Verify ${phoneNumber}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+        body: SingleChildScrollView(
+                  child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 40),
+                child: Center(
+                  child: Text(
+                    'Verify ${phoneNumber}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: PinPut(
-                fieldsCount: 6,
-                textStyle: const TextStyle(fontSize: 25.0, color: Colors.white),
-                eachFieldWidth: 40.0,
-                eachFieldHeight: 55.0,
-                focusNode: _pinPutFocusNode,
-                controller: _pinPutController,
-                keyboardType: TextInputType.phone,
-                submittedFieldDecoration: pinPutDecoration,
-                selectedFieldDecoration: pinPutDecoration,
-                followingFieldDecoration: pinPutDecoration,
-                pinAnimationType: PinAnimationType.fade,
-                onSubmit: (pin) {
-                  _authController.codeVerify(pin);
-                },
-              ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: PinPut(
+                  fieldsCount: 6,
+                  textStyle: const TextStyle(fontSize: 25.0, color: Colors.white),
+                  eachFieldWidth: 40.0,
+                  eachFieldHeight: 55.0,
+                  focusNode: _pinPutFocusNode,
+                  controller: _pinPutController,
+                  keyboardType: TextInputType.phone,
+                  submittedFieldDecoration: pinPutDecoration,
+                  selectedFieldDecoration: pinPutDecoration,
+                  followingFieldDecoration: pinPutDecoration,
+                  pinAnimationType: PinAnimationType.fade,
+                  onSubmit: (pin) {
+                    _authController.codeVerify(pin);
+                  },
+                ),
+              ),Container(
+                height: 300,
+                width: 300,
+                child: FlareActor("assets/animations/timer.flr",))
+            ],
+          ),
         ));
   }
 }

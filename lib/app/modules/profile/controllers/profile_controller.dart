@@ -1,19 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
-  FirebaseAuth auth = FirebaseAuth.instance;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   final count = 0.obs;
 
-  @override
-  void onInit() {
-    if (auth.currentUser != null) {
-      print("still logged in, Code: " + auth.currentUser.uid);
+  getUser(String uid) async {
+    try {
+      DocumentSnapshot _doc =
+          await users.doc(uid).get();
+
+      return _doc;
+    } catch (e) {
+      print(e);
+      rethrow;
     }
-    print("hallooooo");
   }
+
+  
+
+  @override
+  void onInit() {}
 
   @override
   void onReady() {}

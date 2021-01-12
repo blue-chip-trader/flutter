@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CalendarCard extends StatelessWidget {
-  const CalendarCard({
+  CalendarCard({
     Key key,
     @required SignalsActiveController controller,
     this.time,
@@ -12,11 +12,24 @@ class CalendarCard extends StatelessWidget {
     this.forecast,
     this.actual,
     this.flag,
+    this.priority,
+    this.edate,
   })  : _controller = controller,
         super(key: key);
 
   final SignalsActiveController _controller;
-  final String time, country, previous, forecast, actual, flag;
+  final String time, country, previous, forecast, actual, flag, priority;
+  final DateTime edate;
+
+  var now = DateTime.now();
+
+  isComing() {
+    if (edate.isBefore(now)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +47,14 @@ class CalendarCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 60,
+                width: 80,
                 child: Row(
                   children: [
                     Container(
                       height: 8,
                       width: 8,
                       decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: isComing() ? Colors.grey : Colors.blue,
                           borderRadius: BorderRadius.circular(20)),
                     ),
                     SizedBox(
@@ -67,34 +80,7 @@ class CalendarCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                  width: 60,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        height: 8,
-                        width: 8,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                      Container(
-                        height: 8,
-                        width: 8,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                      Container(
-                        height: 8,
-                        width: 8,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                    ],
-                  ))
+              Container(width: 60, child: Priority(priority))
             ],
           ),
           Container(
@@ -102,7 +88,7 @@ class CalendarCard extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               "Monetary Policy Meeting Minutes",
-              style: TextStyle(color: Color(0xFFDADADA),fontSize: 10),
+              style: TextStyle(color: Color(0xFFDADADA), fontSize: 10),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -134,6 +120,99 @@ class CalendarCard extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+Widget Priority(priority) {
+  if (priority == "high") {
+    return HighPriority();
+  } else if (priority == "medium") {
+    return MediumPriority();
+  } else {
+    return LowPriority();
+  }
+}
+
+class HighPriority extends StatelessWidget {
+  const HighPriority({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          height: 8,
+          width: 8,
+          decoration: BoxDecoration(
+              color: Colors.red, borderRadius: BorderRadius.circular(20)),
+        ),
+        Container(
+          height: 8,
+          width: 8,
+          decoration: BoxDecoration(
+              color: Colors.red, borderRadius: BorderRadius.circular(20)),
+        ),
+        Container(
+          height: 8,
+          width: 8,
+          decoration: BoxDecoration(
+              color: Colors.red, borderRadius: BorderRadius.circular(20)),
+        ),
+      ],
+    );
+  }
+}
+
+class MediumPriority extends StatelessWidget {
+  const MediumPriority({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          height: 8,
+          width: 8,
+          decoration: BoxDecoration(
+              color: Colors.orange, borderRadius: BorderRadius.circular(20)),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          height: 8,
+          width: 8,
+          decoration: BoxDecoration(
+              color: Colors.orange, borderRadius: BorderRadius.circular(20)),
+        ),
+      ],
+    );
+  }
+}
+
+class LowPriority extends StatelessWidget {
+  const LowPriority({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          height: 8,
+          width: 8,
+          decoration: BoxDecoration(
+              color: Colors.green, borderRadius: BorderRadius.circular(20)),
+        ),
+      ],
     );
   }
 }

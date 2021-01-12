@@ -14,10 +14,7 @@ class MessagesView extends GetView<MessagesController> {
         backgroundColor: MyTheme().bcBackground,
       ),
       body: Center(
-        child: Text(
-          'MessagesView is working', 
-          style: TextStyle(fontSize:20),
-        ),
+        child: Image.asset("assets/images/comingsoon.jpg")
       ),
     );
   }

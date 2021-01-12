@@ -1,10 +1,11 @@
 import 'package:bluechip/app/presentation/blue_chip_icons_icons.dart';
+import 'package:bluechip/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:bluechip/app/modules/auth/controllers/auth_controller.dart';
 
-TextEditingController _phoneController = TextEditingController();
+AuthController controller = Get.put(AuthController());
 
 class AuthView extends GetView<AuthController> {
   @override
@@ -40,51 +41,53 @@ class AuthView extends GetView<AuthController> {
                 child: Image.asset("assets/images/bclogo.png",
                     height: 30, alignment: Alignment.center),
               ),
-              GestureDetector(
-                onTap: () {
-                  controller.handleSignIn(SignInType.GOOGLE,"");
-                  print("signin pressed");
-                },
-                child: Container(
-                    margin: EdgeInsets.all(15),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Color(0xFF38A6DD),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(12),
-                          width: 45,
-                          child: Image.asset("assets/images/google.png"),
-                          height: 45,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10))),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Text(
-                                "Sign In With Google",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     controller.handleSignIn(SignInType.GOOGLE,"");
+              //     print("signin pressed");
+              //   },
+              //   child: Container(
+              //       margin: EdgeInsets.all(15),
+              //       width: double.infinity,
+              //       decoration: BoxDecoration(
+              //           color: Color(0xFF38A6DD),
+              //           borderRadius: BorderRadius.all(Radius.circular(10))),
+              //       child: Row(
+              //         children: [
+              //           Container(
+              //             padding: EdgeInsets.all(12),
+              //             width: 45,
+              //             child: Image.asset("assets/images/google.png"),
+              //             height: 45,
+              //             decoration: BoxDecoration(
+              //                 color: Colors.white,
+              //                 borderRadius: BorderRadius.only(
+              //                     topLeft: Radius.circular(10),
+              //                     bottomLeft: Radius.circular(10))),
+              //           ),
+              //           Expanded(
+              //             child: Center(
+              //               child: Padding(
+              //                 padding: const EdgeInsets.all(12),
+              //                 child: Text(
+              //                   "Sign In With Google",
+              //                   style: TextStyle(
+              //                       fontSize: 18, fontWeight: FontWeight.bold),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       )),
+              // ),
               Divider(),
               _buildPhoneTF(),
               GestureDetector(
                 onTap: () {
-                  Get.toNamed("/otp",
-                      arguments: _phoneController.text.toString());
+                  controller.signInWithPhone(
+                      controller.phoneController.text.toString());
+                  // Get.toNamed("/otp",
+                  //     arguments: controller.phoneController.text.toString());
                   //Get.snackbar('Signed Out', 'Sad to see you going...');
                 },
                 child: Container(
@@ -103,7 +106,22 @@ class AuthView extends GetView<AuthController> {
                         ),
                       ),
                     )),
-              )
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Text("By signing in, you agree with the"),
+              SizedBox(
+                height: 5,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/settings-terms");
+                  },
+                  child: Text(
+                    "Terms & Conditions.",
+                    style: TextStyle(color: MyTheme().bcButtonColor),
+                  )),
             ],
           ),
         ),
@@ -128,7 +146,7 @@ Widget _buildPhoneTF() {
             color: Colors.white,
             fontFamily: 'OpenSans',
           ),
-          controller: _phoneController,
+          controller: controller.phoneController,
           cursorColor: Colors.grey,
           decoration: InputDecoration(
             border: InputBorder.none,

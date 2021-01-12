@@ -5,6 +5,7 @@ class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   String verificationCode;
+  
 
   Stream<User> onAuthChanged() {
     return _firebaseAuth.authStateChanges();

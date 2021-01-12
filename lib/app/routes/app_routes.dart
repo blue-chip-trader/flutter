@@ -33,4 +33,8 @@ abstract class Routes{
   static const OTP = '/otp';
   static const CONFIRMDETAILS = '/confirmdetails';
   static const MESSAGES = '/messages';
+  static const YDAYEVENTS = '/ydayevents';
+  static const TODAYEVENTS = '/todayevents';
+  static const TOMOROEVENTS = '/tomoroevents';
+  static const THISWEEKEVENTS = '/thisweekevents';
 }

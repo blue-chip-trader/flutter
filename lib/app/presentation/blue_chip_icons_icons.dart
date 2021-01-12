@@ -58,6 +58,11 @@ class BlueChipIcons {
   static const IconData user = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData search = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData filter = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData whatsapp = IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData twitter = IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData facebook_logo = IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData heart = IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData time = IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chat = IconData(0xf03d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData book_open = IconData(0xf518, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

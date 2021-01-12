@@ -35,12 +35,15 @@ dependencies:
   get: 3.15.0
   get_storage: ^1.4.0
   velocity_x : ^1.0.1
-  flappy_search_bar: ^1.7.2
   beauty_textfield: ^0.0.1
   intl: ^0.16.1
   pinput: ^0.2.6
   list_tile_switch: 0.0.2
   pull_to_refresh: ^1.6.3
+  flare_flutter: ^2.0.6
+  story_view: ^0.12.6
+
+
 
 
   # Check that you have this dependency (added in the previous step)
@@ -55,9 +58,14 @@ dependencies:
   cloud_firestore: "^0.14.4"
   flutter_launcher_icons: ^0.8.0
   google_sign_in: ^4.5.1
-  firebase_messaging: ^7.0.3
+  firebase_messaging: "^8.0.0-dev.11"
   tiktoklikescroller: ^0.1.1
-  lottie: ^0.7.0+1
+
+  slimy_card: ^1.0.4
+
+
+
+  
 
 
 
@@ -90,15 +98,20 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/
-   - assets/animations/
    - assets/images/bclogo.png
    - assets/images/bluechip1.png
+   - assets/images/Message.svg
    - assets/images/bcico.png
    - assets/images/news1.jpg
    - assets/images/google.png
    - assets/images/facebook.svg
    - assets/images/twitter.svg
    - assets/images/instagram.svg
+   - assets/images/Camera.svg
+   - assets/images/Chat.svg
+   - assets/images/Heart.svg
+   - assets/images/Square.svg
+   - assets/images/comingsoon.jpg
 
   #   - images/a_dot_ham.jpeg
   

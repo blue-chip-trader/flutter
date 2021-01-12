@@ -1,7 +1,9 @@
 import 'package:bluechip/app/modules/auth/bindings/auth_binding.dart';
 import 'package:bluechip/app/modules/auth/controllers/auth_controller.dart';
+import 'package:bluechip/app/modules/auth/views/auth_view.dart';
 import 'package:bluechip/app/modules/confirmdetails/views/confirmdetails_view.dart';
 import 'package:bluechip/app/modules/signals_active/views/signals_active_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +23,7 @@ Future<void> main() async {
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.white, // navigation bar color
-    systemNavigationBarDividerColor:  Colors.blue, // status bar color
+    systemNavigationBarDividerColor: Colors.blue, // status bar color
   ));
 
   final appData = GetStorage();
@@ -34,10 +36,12 @@ Future<void> main() async {
     GetMaterialApp(
       theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
       debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.leftToRight,
       title: "Blue Chip Trader",
       initialBinding: AuthBinding(),
-      home: HomeView(),
+      home: Root(),
       getPages: AppPages.routes,
+      
     ),
   );
 }

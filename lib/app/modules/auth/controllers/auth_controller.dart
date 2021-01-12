@@ -1,13 +1,19 @@
 import 'package:bluechip/app/services/auth.service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   Rx<User> _User = Rx<User>();
+
+  TextEditingController phoneController = TextEditingController();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   User get user => _User.value;
   RxBool isLogged = false.obs;
@@ -17,6 +23,30 @@ class AuthController extends GetxController {
   AuthController() {
     _authService = AuthService();
   }
+
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  // Future<void> addUser(id, phoneemail, signInType) {
+  //   // Call the user's CollectionReference to add a new user
+  //   if (signInType == SignInType.GOOGLE) {
+  //     return users
+  //         .doc(user.uid)
+  //         .set({
+  //           'dname': user.displayName,
+  //           'phone': "", // John Doe
+  //           'email': phoneemail, // Stokes and Sons
+  //           'ppic': user.photoURL.toString() // 42
+  //         })
+  //         .then((value) => print("User Added"))
+  //         .catchError((error) => print("Failed to add user: $error"));
+  //   } else {
+  //     return users
+  //         .doc(user.uid)
+  //         .set({'phone': phoneemail, 'email': "", 'dname': ""})
+  //         .then((value) => print("User Added"))
+  //         .catchError((error) => print("Failed to add user: $error"));
+  //   }
+  // }
 
   Stream<User> onAuthChanged() {
     return _auth.authStateChanges();
@@ -29,18 +59,46 @@ class AuthController extends GetxController {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
               .then((value) async {
-            if (value.user != null) {}
+            if (value.user != null) {
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(_auth.currentUser.uid)
+                  .get()
+                  .then((DocumentSnapshot documentSnapshot) {
+                if (!documentSnapshot.exists) {
+                  users.add({
+                    'id': _auth.currentUser.uid,
+                    'dname': 'Add your name',
+                    'email': 'add email',
+                    'subscription': "Free", // John Doe
+                  });
+                  Get.toNamed("/confirmdetails",
+                      arguments: phoneController.text.toString());
+                  print('Document doesnt exist on the database');
+                } else {
+                  Get.toNamed("/confirmdetails",
+                      arguments: phoneController.text.toString());
+                  print('Document exists on the database');
+                }
+              });
+            }
           });
         },
         verificationFailed: (FirebaseAuthException e) {
           print(e.message);
+          Get.snackbar('Error', e.message,
+              isDismissible: true,
+              titleText: Text(
+                "Error",
+              ),
+              duration: Duration(seconds: 20));
         },
         codeSent: (String verficationID, int resendToken) {
           _verificationCode = verficationID;
-          print(_verificationCode);
+          Get.toNamed("/otp", arguments: phoneController.text.toString());
         },
         codeAutoRetrievalTimeout: (String verificationID) {},
-        timeout: Duration(seconds: 0));
+        timeout: Duration(seconds: 60));
   }
 
   codeVerify(pin) async {
@@ -50,7 +108,27 @@ class AuthController extends GetxController {
               verificationId: _verificationCode, smsCode: pin))
           .then((value) async {
         if (value.user != null) {
-          Get.toNamed("/home");
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(_auth.currentUser.uid)
+              .get()
+              .then((DocumentSnapshot documentSnapshot) {
+            if (!documentSnapshot.exists) {
+              addUser();
+
+              Get.toNamed("/confirmdetails",
+                  arguments: phoneController.text.toString());
+              print('Document doesnt exists on the database');
+            }else{
+              Get.toNamed("/confirmdetails",
+                  arguments: phoneController.text.toString());
+              print('Document exists on the database');
+            }
+          });
+
+          ;
+
+          // return Get.offAllNamed("/confirmdetails");
         }
       });
     } catch (e) {
@@ -83,17 +161,13 @@ class AuthController extends GetxController {
   }
 
   handleSignIn(SignInType type, String phoneNum) async {
-    Get.snackbar("Signing In", "Loading",
-        showProgressIndicator: true,
-        progressIndicatorBackgroundColor: Color(0xFF38A6DD),
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(minutes: 2));
+    //
     try {
       if (type == SignInType.PHONE) {
         await signInWithPhone(phoneNum);
       }
       if (type == SignInType.GOOGLE) {
-        await _authService.signInWithGoogle();
+        await signInWithGoogle();
       }
     } catch (e) {
       Get.back();
@@ -107,6 +181,37 @@ class AuthController extends GetxController {
       ]);
       print(e);
     }
+  }
+
+  Future<String> signInWithGoogle() async {
+    Get.snackbar("Signing In", "Loading",
+        showProgressIndicator: true,
+        progressIndicatorBackgroundColor: Color(0xFF38A6DD),
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(minutes: 2));
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    await _auth.signInWithCredential(credential);
+    User user = await _auth.currentUser;
+    //addUser(user.uid, user.email, SignInType.GOOGLE);
+    return user.uid;
+  }
+
+  addUser() {
+    users
+        .doc(_auth.currentUser.uid)
+        .set({
+          'dname': 'Add your name',
+          'email': 'add email',
+          'subscription': "Free", // John Doe
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   handleSignOut() {

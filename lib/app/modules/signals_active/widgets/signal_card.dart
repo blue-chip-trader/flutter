@@ -80,52 +80,64 @@ class SignalCard extends StatelessWidget {
                       ))
                 ],
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Stack(
                 children: [
-                  (buy == true)
-                      ? Container(
-                          alignment: Alignment.center,
-                          child: Text("BUY",
-                              style: TextStyle(
-                                fontSize: 11,
-                              )),
-                          padding: EdgeInsets.all(5),
-                          width: 80,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF2A4236),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                        )
-                      : Container(
-                          alignment: Alignment.center,
-                          child: Text("SELL",
-                              style: TextStyle(
-                                fontSize: 11,
-                              )),
-                          padding: EdgeInsets.all(5),
-                          width: 80,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF782427),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      (buy == true)
+                          ? Container(
+                              alignment: Alignment.center,
+                              child: Text("BUY",
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                  )),
+                              padding: EdgeInsets.all(5),
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFF2A4236),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5))),
+                            )
+                          : Container(
+                              alignment: Alignment.center,
+                              child: Text("SELL",
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                  )),
+                              padding: EdgeInsets.all(5),
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFF782427),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5))),
+                            ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        "SL: " + sl,
+                        style: TextStyle(
+                          fontSize: 11,
                         ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  Text(
-                    "SL: " + sl,
-                    style: TextStyle(
-                      fontSize: 11,
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text("TP: " + tp,
+                          style: TextStyle(
+                            fontSize: 11,
+                          )),
+                    ],
+                  ),Container(height: 60,width: 80,color: MyTheme().bcPrimaryColor2,child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.lock),
+                        Text("Starter")
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text("TP: " + tp,
-                      style: TextStyle(
-                        fontSize: 11,
-                      )),
+                  ),)
                 ],
               )
             ],

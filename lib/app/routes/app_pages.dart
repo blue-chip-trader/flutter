@@ -1,3 +1,11 @@
+import 'package:bluechip/app/modules/thisweekevents/views/thisweekevents_view.dart';
+import 'package:bluechip/app/modules/thisweekevents/bindings/thisweekevents_binding.dart';
+import 'package:bluechip/app/modules/tomoroevents/views/tomoroevents_view.dart';
+import 'package:bluechip/app/modules/tomoroevents/bindings/tomoroevents_binding.dart';
+import 'package:bluechip/app/modules/todayevents/views/todayevents_view.dart';
+import 'package:bluechip/app/modules/todayevents/bindings/todayevents_binding.dart';
+import 'package:bluechip/app/modules/ydayevents/views/ydayevents_view.dart';
+import 'package:bluechip/app/modules/ydayevents/bindings/ydayevents_binding.dart';
 import 'package:bluechip/app/modules/messages/views/messages_view.dart';
 import 'package:bluechip/app/modules/messages/bindings/messages_binding.dart';
 import 'package:bluechip/app/modules/confirmdetails/views/confirmdetails_view.dart';
@@ -10,8 +18,7 @@ import 'package:bluechip/app/modules/auth/views/auth_view.dart';
 import 'package:bluechip/app/modules/auth/bindings/auth_binding.dart';
 import 'package:bluechip/app/modules/article/views/article_view.dart';
 import 'package:bluechip/app/modules/article/bindings/article_binding.dart';
-import 'package:bluechip/app/modules/search/views/search_view.dart';
-import 'package:bluechip/app/modules/search/bindings/search_binding.dart';
+
 import 'package:bluechip/app/modules/login/views/login_view.dart';
 import 'package:bluechip/app/modules/login/bindings/login_binding.dart';
 import 'package:bluechip/app/modules/signals/views/signals_view.dart';
@@ -56,11 +63,12 @@ import 'package:bluechip/app/modules/profile/views/profile_view.dart';
 import 'package:bluechip/app/modules/profile/bindings/profile_binding.dart';
 import 'package:bluechip/app/modules/home/home_view.dart';
 import 'package:bluechip/app/modules/home/home_binding.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.CONFIRMDETAILS;
+  //static const INITIAL = Routes.CONFIRMDETAILS;
 
   static final routes = [
     GetPage(
@@ -95,11 +103,13 @@ class AppPages {
     ),
     GetPage(
       name: Routes.SIGNAL,
+      transition: Transition.zoom,
       page: () => SignalView(),
       binding: SignalBinding(),
     ),
     GetPage(
       name: Routes.NOTIFICATIONS,
+      transition: Transition.fadeIn,
       page: () => NotificationsView(),
       binding: NotificationsBinding(),
     ),
@@ -174,39 +184,54 @@ class AppPages {
       binding: LoginBinding(),
     ),
     GetPage(
-      name: Routes.SEARCH,
-      page: () => SearchView(),
-      binding: SearchBinding(),
-    ),
-    GetPage(
       name: Routes.ARTICLE,
       page: () => ArticleView(),
       binding: ArticleBinding(),
     ),
     GetPage(
-      name: Routes.AUTH, 
-      page:()=> AuthView(), 
+      name: Routes.AUTH,
+      page: () => AuthView(),
       binding: AuthBinding(),
     ),
     GetPage(
-      name: Routes.EXPLORE, 
-      page:()=> ExploreView(), 
+      name: Routes.EXPLORE,
+      page: () => ExploreView(),
       binding: ExploreBinding(),
     ),
     GetPage(
-      name: Routes.OTP, 
-      page:()=> OtpView(), 
+      name: Routes.OTP,
+      page: () => OtpView(),
       binding: OtpBinding(),
     ),
     GetPage(
-      name: Routes.CONFIRMDETAILS, 
-      page:()=> ConfirmdetailsView(), 
+      name: Routes.CONFIRMDETAILS,
+      page: () => ConfirmdetailsView(),
       binding: ConfirmdetailsBinding(),
     ),
     GetPage(
-      name: Routes.MESSAGES, 
-      page:()=> MessagesView(), 
+      name: Routes.MESSAGES,
+      page: () => MessagesView(),
       binding: MessagesBinding(),
+    ),
+    GetPage(
+      name: Routes.YDAYEVENTS,
+      page: () => YdayeventsView(),
+      binding: YdayeventsBinding(),
+    ),
+    GetPage(
+      name: Routes.TODAYEVENTS,
+      page: () => TodayeventsView(),
+      binding: TodayeventsBinding(),
+    ),
+    GetPage(
+      name: Routes.TOMOROEVENTS,
+      page: () => TomoroeventsView(),
+      binding: TomoroeventsBinding(),
+    ),
+    GetPage(
+      name: Routes.THISWEEKEVENTS,
+      page: () => ThisweekeventsView(),
+      binding: ThisweekeventsBinding(),
     ),
   ];
 }

@@ -4,13 +4,7 @@ import 'package:get/get.dart';
 
 class SignalController extends GetxController {
   //TODO: Implement SignalController
-  String id;
 
-  Rx<OneSignalModel> _sigModel = OneSignalModel().obs;
-
-  OneSignalModel get sig => _sigModel.value;
-
-  set sig(OneSignalModel value) => this._sigModel.value = value;
 
   final count = 0.obs;
 
@@ -28,16 +22,16 @@ class SignalController extends GetxController {
       print(e);
       rethrow;
     }
-
-    @override
-    void onInit() {}
-
-    @override
-    void onReady() {}
-
-    @override
-    void onClose() {}
-
-    void increment() => count.value++;
   }
+
+  @override
+  void onInit() {}
+
+  @override
+  void onReady() {}
+
+  @override
+  void onClose() {}
+
+  void increment() => count.value++;
 }

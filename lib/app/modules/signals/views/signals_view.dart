@@ -48,7 +48,7 @@ class SignalsView extends GetView<SignalsController> {
                     insets: EdgeInsets.symmetric(horizontal: 30.0)),
                 tabs: [
                   Tab(icon: Text('Active')),
-                  Tab(icon: Text('History')),
+                  Tab(icon: Text('This Week')),
                 ],
               ),
             ),

@@ -40,7 +40,9 @@ class SignalsActiveController extends GetxController {
     'nzFlag':
         'https://firebasestorage.googleapis.com/v0/b/blue-chip-trader.appspot.com/o/NZ.svg?alt=media&token=e6354b2a-7b15-4aef-b84d-3b738a33eae4',
     'chFlag':
-        'https://firebasestorage.googleapis.com/v0/b/blue-chip-trader.appspot.com/o/CH.svg?alt=media&token=0cc92f17-c117-47c3-88f2-f64584602f96'
+        'https://firebasestorage.googleapis.com/v0/b/blue-chip-trader.appspot.com/o/CH.svg?alt=media&token=0cc92f17-c117-47c3-88f2-f64584602f96',
+    'cnFlag':
+        'https://firebasestorage.googleapis.com/v0/b/blue-chip-trader.appspot.com/o/CN.svg?alt=media&token=f8d575ef-acc0-4a06-8122-b02a1e96d1e7'
   };
 
   var countryFlags = {};

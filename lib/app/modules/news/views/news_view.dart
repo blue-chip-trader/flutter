@@ -6,24 +6,22 @@ import 'package:get/get.dart';
 import 'package:bluechip/app/modules/news/controllers/news_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+RefreshController _refreshController = RefreshController(initialRefresh: false);
 
+void _onRefresh() async {
+  // monitor network fetch
+  await Future.delayed(Duration(milliseconds: 1000));
+  // if failed,use refreshFailed()
+  _refreshController.refreshCompleted();
+}
 
-void _onRefresh() async{
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
-  }
+void _onLoading() async {
+  // monitor network fetch
+  await Future.delayed(Duration(milliseconds: 1000));
+  // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-  void _onLoading() async{
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-    
-    _refreshController.loadComplete();
-  }
+  _refreshController.loadComplete();
+}
 
 class NewsView extends GetView<NewsController> {
   @override
@@ -40,8 +38,8 @@ class NewsView extends GetView<NewsController> {
               // ),
               title: Text("News"),
               centerTitle: true,
-              // 
-              
+              //
+
               backgroundColor: Color(0xFF0E0E0F),
               elevation: 5,
               bottom: TabBar(
@@ -65,7 +63,6 @@ class NewsView extends GetView<NewsController> {
                 NewList(),
                 NewList(),
                 NewList(),
-               
               ],
             )));
   }
@@ -79,37 +76,34 @@ class NewList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        header: WaterDropHeader(),
-        footer: CustomFooter(
-          builder: (BuildContext context,LoadStatus mode){
-            Widget body ;
-            if(mode==LoadStatus.idle){
-              body =  Text("pull up load");
-            }
-            else if(mode==LoadStatus.loading){
-              body =  CupertinoActivityIndicator();
-            }
-            else if(mode == LoadStatus.failed){
-              body = Text("Load Failed!Click retry!");
-            }
-            else if(mode == LoadStatus.canLoading){
-                body = Text("release to load more");
-            }
-            else{
-              body = Text("No more Data");
-            }
-            return Container(
-              height: 55.0,
-              child: Center(child:body),
-            );
-          },
-        ),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-          child: ListView(
+      enablePullDown: true,
+      enablePullUp: true,
+      header: WaterDropHeader(),
+      footer: CustomFooter(
+        builder: (BuildContext context, LoadStatus mode) {
+          Widget body;
+          if (mode == LoadStatus.idle) {
+            body = Text("pull up load");
+          } else if (mode == LoadStatus.loading) {
+            body = CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = Text("Load Failed!Click retry!");
+          } else if (mode == LoadStatus.canLoading) {
+            body = Text("release to load more");
+          } else {
+            body = Text("No more Data");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: body),
+          );
+        },
+      ),
+      controller: _refreshController,
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      child: ListView(
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         children: [
           NewsCard(),
           NewsCard(),
@@ -194,7 +188,8 @@ class NewsCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text("5 hours ago",
-                          style: TextStyle(color: Color(0xFF979797), fontSize: 12)),
+                          style: TextStyle(
+                              color: Color(0xFF979797), fontSize: 12)),
                     ],
                   ),
                 ],
