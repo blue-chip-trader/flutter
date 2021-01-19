@@ -1,11 +1,15 @@
 import 'package:bluechip/app/models/signal.model.dart';
 import 'package:bluechip/app/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class SignalsActiveController extends GetxController {
   //TODO: Implement SignalsActiveController
   SignalModel activeSignal;
   Database _database;
+  int usersub;
+  String uid = FirebaseAuth.instance.currentUser.uid.toString();
 
   Rx<List<SignalModel>> signalsList = Rx<List<SignalModel>>();
 
@@ -21,6 +25,13 @@ class SignalsActiveController extends GetxController {
   }
 
   final count = 0.obs;
+
+  Stream signalsActive = FirebaseFirestore.instance
+      .collection('signals')
+      .doc('forex')
+      .collection("signal")
+      .orderBy("opened at", descending: true)
+      .snapshots();
 
   var flags = {
     'usFlag':
@@ -51,6 +62,12 @@ class SignalsActiveController extends GetxController {
   void onInit() {
     signalsList
         .bindStream(Database().signalStream()); //stream coming from firebase
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot doc) => {usersub = doc['subscription']});
   }
 
   @override

@@ -5,6 +5,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+String uid = FirebaseAuth.instance.currentUser.uid.toString();
+CollectionReference users = FirebaseFirestore.instance.collection('users');
+bool _isLocked;
+
+// int usersub;
 
 class SignalCard extends StatelessWidget {
   const SignalCard(
@@ -17,20 +25,49 @@ class SignalCard extends StatelessWidget {
       this.buy,
       this.myindex,
       this.flag1,
-      this.flag2})
+      this.flag2,
+      this.subscription,
+      this.usersub, this.sid})
       : super(key: key);
 
   final SignalsActiveController controller;
-  final String pair, price, tp, sl, myindex, flag1, flag2;
+  final String pair, price, tp, sl, myindex, flag1, flag2,sid;
   final bool buy;
+  final int subscription;
+  final int usersub;
+
 
   @override
   Widget build(BuildContext context) {
+    String siglevel;
+
+    // FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(uid)
+    //     .get()
+    //     .then((DocumentSnapshot doc) => {usersub = doc['subscription']});
+
+    if (subscription == 0) {
+      siglevel = "Free";
+    } else if (subscription == 1) {
+      siglevel = "Starter";
+    } else if (subscription == 2) {
+      siglevel = "Pro";
+    } else if (subscription == 3) {
+      siglevel = "Pro Plus";
+    }
+
     final appData = GetStorage();
+
+    //int level = 3;
     bool _isDarkMode = appData.read("_isDark");
     return GestureDetector(
       onTap: () {
-        Get.toNamed("/signal", arguments: myindex);
+        if (subscription > usersub) {
+          Get.snackbar("Locked", "Upgrade to access more profitable Signals");
+        } else {
+          Get.toNamed("/signal", arguments: [myindex,sid]);
+        }
       },
       child: Stack(alignment: Alignment.bottomCenter, children: [
         Container(
@@ -74,10 +111,15 @@ class SignalCard extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Text(price,
-                      style: TextStyle(
-                        fontSize: 11,
-                      ))
+                  (subscription > usersub)
+                      ? Text("0.0000",
+                          style: TextStyle(
+                            fontSize: 12,
+                          ))
+                      : Text(price,
+                          style: TextStyle(
+                            fontSize: 12,
+                          ))
                 ],
               ),
               Stack(
@@ -129,15 +171,19 @@ class SignalCard extends StatelessWidget {
                             fontSize: 11,
                           )),
                     ],
-                  ),Container(height: 60,width: 80,color: MyTheme().bcPrimaryColor2,child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.lock),
-                        Text("Starter")
-                      ],
-                    ),
-                  ),)
+                  ),
+                  if (subscription > usersub)
+                    Container(
+                      height: 60,
+                      width: 80,
+                      color: MyTheme().bcPrimaryColor2,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Icon(Icons.lock), Text(siglevel)],
+                        ),
+                      ),
+                    )
                 ],
               )
             ],

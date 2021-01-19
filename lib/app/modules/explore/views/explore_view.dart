@@ -7,48 +7,33 @@ import 'package:bluechip/app/modules/explore/controllers/explore_controller.dart
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 
 class ExploreView extends GetView<ExploreController> {
-  Stream posts = FirebaseFirestore.instance
-      .collection("posts")
-      .orderBy("created", descending: true)
-      .snapshots();
-
+  
   @override
   Widget build(BuildContext context) {
-    final List<Color> colors = <Color>[
-      Colors.red,
-      Colors.blue,
-      Colors.yellow,
-      Colors.red,
-      Colors.blue,
-      Colors.yellow
-    ];
+    
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          leading: IconButton(
-              padding: EdgeInsets.only(left: 20),
-              icon: SvgPicture.asset(
-                "assets/images/Message.svg",
-                height: 30,
-              ),
-              onPressed: () {
-                Get.toNamed("/messages");
-              }),
           actions: [
-            IconButton(
-                icon: SvgPicture.asset(
-                  "assets/images/Camera.svg",
-                  height: 30,
-                ),
-                padding: EdgeInsets.only(right: 15),
-                onPressed: () {})
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: IconButton(
+                  padding: EdgeInsets.only(right: 20),
+                  icon: SvgPicture.asset(
+                    "assets/images/Message.svg",
+                    height: 40,
+                  ),
+                  onPressed: () {
+                    Get.toNamed("/messages");
+                  }),
+            ),
           ],
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
         backgroundColor: MyTheme().bcBackground,
         body: StreamBuilder<QuerySnapshot>(
-            stream: posts,
+            stream: controller.posts,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -62,21 +47,24 @@ class ExploreView extends GetView<ExploreController> {
               }
 
               return new TikTokStyleFullPageScroller(
-                  contentSize: colors.length,
+                  contentSize: controller.pics.length,
                   swipeThreshold: 0.2,
                   // ^ the fraction of the screen needed to scroll
                   swipeVelocityThreshold: 2000,
                   // ^ the velocity threshold for smaller scrolls
                   animationDuration: const Duration(milliseconds: 200),
                   // ^ how long the animation will take
-                  builder: (BuildContext context, int index) {
+                  builder: (context, index) {
                     return Stack(
                       children: [
                         Container(
-                          color: colors[index],
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage(controller.pics[index]),
+                                  fit: BoxFit.cover)),
                           child: Center(
                             child: Text(
-                              '$index',
+                              "",
                               style: const TextStyle(
                                   fontSize: 48, color: Colors.white),
                             ),
@@ -100,7 +88,7 @@ class ExploreView extends GetView<ExploreController> {
                                         height: 30,
                                       ),
                                       Text(
-                                        "400",
+                                        "$index",
                                       ),
                                     ],
                                   )),

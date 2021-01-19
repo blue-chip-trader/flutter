@@ -6,10 +6,16 @@ class PostModel {
   bool video;
   String url;
   String title;
-  String likes;
-  String comments;
+  int likes;
+  int comments;
 
-  PostModel(this.id, this.uid, this.video, this.url, this.title, this.likes,
+  PostModel(
+      this.id,
+      this.uid,
+      this.video,
+      this.url,
+      this.title,
+      this.likes,
       this.comments);
 
   PostModel.fromDocumentSnapshot(
@@ -17,8 +23,8 @@ class PostModel {
   ) {
     id = documentSnapshot.id;
     uid = documentSnapshot.data()["uid"];
-    video = documentSnapshot.data()["body"];
-    url = documentSnapshot.data()["url"];
+    video = documentSnapshot.data()["true"];
+    url = documentSnapshot.data()["imageurl"];
     title = documentSnapshot.data()["title"];
     likes = documentSnapshot.data()["likes"];
     comments = documentSnapshot.data()["comments"];

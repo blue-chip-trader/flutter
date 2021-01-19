@@ -3,6 +3,7 @@ import 'package:bluechip/app/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bluechip/app/modules/confirmdetails/controllers/confirmdetails_controller.dart';
@@ -38,6 +39,8 @@ class ConfirmdetailsView extends GetView<ConfirmdetailsController> {
                 nameController.text = data['dname'];
                 phoneController.text = user.phoneNumber;
                 emailController.text = data['email'];
+                displayName = data['dname'];
+                bcEmail = data['email'];
                 return Center(
                   child: SingleChildScrollView(
                     child: Container(
@@ -210,13 +213,16 @@ class BCTButton extends StatelessWidget {
   Widget build(BuildContext context) {
     String uid = FirebaseAuth.instance.currentUser.uid.toString();
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+    FirebaseMessaging.instance.subscribeToTopic("signal");
     return GestureDetector(
       onTap: () {
         users.doc(uid).update({
           'dname': displayName, // John Doe
           'phone': phone, // Stokes and Sons
-          'email': bcEmail // 42
+          'email': bcEmail,
+          // 'ctoken': ctoken // 42
         });
+        print("token: ");
         // _authcontroller.handleSignOut();
         Get.offNamed("/home");
       },
@@ -224,7 +230,7 @@ class BCTButton extends StatelessWidget {
           margin: EdgeInsets.all(15),
           width: double.infinity,
           decoration: BoxDecoration(
-              color: MyTheme().bcButtonColor,
+              color: Colors.blue,
               borderRadius: BorderRadius.all(Radius.circular(13))),
           child: Center(
             child: Padding(

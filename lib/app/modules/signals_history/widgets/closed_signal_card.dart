@@ -14,18 +14,18 @@ class ClosedSignalCard extends StatelessWidget {
       this.sl,
       this.tp,
       this.won,
-      this.myindex, this.date, this.flag1, this.flag2})
+      this.myindex, this.date, this.flag1, this.flag2, this.sid})
       : super(key: key);
 
   final SignalsActiveController controller;
-  final String pair, price, tp, sl, myindex,date,flag1,flag2;
+  final String pair, price, tp, sl, myindex,date,flag1,flag2,sid;
   final bool won;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed("/signal", arguments: myindex);
+        Get.toNamed("/signal", arguments: [myindex,sid]);
       },
       child: Stack(alignment: Alignment.bottomCenter, children: [
         Container(

@@ -22,8 +22,7 @@ class ProfileView extends GetView<ProfileController> {
     final appData = GetStorage();
     bool _isDarkMode = appData.read("_isDark");
     String uid = FirebaseAuth.instance.currentUser.uid.toString();
-        CollectionReference users = FirebaseFirestore.instance.collection('users');
-
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return Scaffold(
         backgroundColor:
@@ -42,15 +41,27 @@ class ProfileView extends GetView<ProfileController> {
         body: GetBuilder<ProfileController>(builder: (value) {
           return FutureBuilder(
               future: users.doc(uid).get(),
-              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else {
                   Map<String, dynamic> data = snapshot.data.data();
+                  String siglevel;
+                  if (data['subscription'] == 0) {
+                    siglevel = "Free";
+                  } else if (data['subscription'] == 1) {
+                    siglevel = "Starter";
+                  } else if (data['subscription'] == 2) {
+                    siglevel = "Pro";
+                  } else if (data['subscription'] == 3) {
+                    siglevel = "Pro Plus";
+                  }
 
                   return Center(
                     child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                      physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -65,7 +76,6 @@ class ProfileView extends GetView<ProfileController> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(13))),
                               child: Column(children: [
-                                
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(200),
                                   child: Container(
@@ -110,7 +120,7 @@ class ProfileView extends GetView<ProfileController> {
                                     height: 30,
                                     width: 100,
                                     decoration: BoxDecoration(
-                                        color: MyTheme().bcButtonColor,
+                                        color: Colors.blue,
                                         borderRadius: BorderRadius.circular(8)),
                                   ),
                                 ),
@@ -128,7 +138,7 @@ class ProfileView extends GetView<ProfileController> {
                                 ProfileTile(
                                   ptitle: "Subscriptions",
                                   picon: BlueChipIcons.ticket,
-                                  psubtitle: data['subscription'],
+                                  psubtitle: siglevel,
                                   ppage: "/settings-subscription",
                                 ),
                                 ProfileTile(
@@ -274,7 +284,7 @@ class BCTButton extends StatelessWidget {
           margin: EdgeInsets.all(15),
           width: double.infinity,
           decoration: BoxDecoration(
-              color: MyTheme().bcButtonColor,
+              color: Colors.blue,
               borderRadius: BorderRadius.all(Radius.circular(13))),
           child: Center(
             child: Padding(

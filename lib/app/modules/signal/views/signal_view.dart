@@ -7,15 +7,15 @@ import 'package:bluechip/app/modules/signal/controllers/signal_controller.dart';
 import 'package:intl/intl.dart';
 
 class SignalView extends GetView<SignalController> {
- 
-
   @override
   Widget build(BuildContext context) {
-    String id = Get.arguments;
+    String id = Get.arguments[0];
+    String sid = Get.arguments[1];
+    String timezone = "Africa/Johannesburg";
     return Scaffold(
         backgroundColor: Color(0xFF000000),
         appBar: AppBar(
-          title: Text('Signal #' + id),
+          title: Text('Signal #' + sid),
           centerTitle: true,
           backgroundColor: Color(0xFF0E0E0F),
         ),
@@ -175,6 +175,7 @@ class SignalView extends GetView<SignalController> {
                                   height: 20,
                                 )
                               ])),
+//                          ?
                         ],
                       ),
                     ),

@@ -7,34 +7,32 @@ import 'package:get_storage/get_storage.dart';
 
 class SignalsActiveView extends GetView<SignalsActiveController> {
   final SignalsActiveController controller = Get.put(SignalsActiveController());
-  Stream signalsActive = FirebaseFirestore.instance
-      .collection('signals')
-      .doc('forex')
-      .collection("signal")
-      .orderBy("opened at", descending: true)
-      .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: signalsActive,
+        stream: controller.signalsActive,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              controller.usersub == null) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
 
           return new ListView(
-              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               children: snapshot.data.docs
                   .where((element) => element["active"] == true)
                   .map((DocumentSnapshot document) {
                 return new SignalCard(
                   myindex: document.id,
+                  sid: document.data()['sid'],
                   controller: controller,
                   pair: document.data()['pair'],
                   price: document.data()['price'],
@@ -43,6 +41,8 @@ class SignalsActiveView extends GetView<SignalsActiveController> {
                   buy: document.data()['direction'],
                   flag1: document.data()['flag1'],
                   flag2: document.data()['flag2'],
+                  subscription: document.data()['sub'],
+                  usersub: controller.usersub,
                 );
               }).toList());
         });

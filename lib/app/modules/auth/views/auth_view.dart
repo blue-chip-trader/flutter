@@ -41,51 +41,26 @@ class AuthView extends GetView<AuthController> {
                 child: Image.asset("assets/images/bclogo.png",
                     height: 30, alignment: Alignment.center),
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     controller.handleSignIn(SignInType.GOOGLE,"");
-              //     print("signin pressed");
-              //   },
-              //   child: Container(
-              //       margin: EdgeInsets.all(15),
-              //       width: double.infinity,
-              //       decoration: BoxDecoration(
-              //           color: Color(0xFF38A6DD),
-              //           borderRadius: BorderRadius.all(Radius.circular(10))),
-              //       child: Row(
-              //         children: [
-              //           Container(
-              //             padding: EdgeInsets.all(12),
-              //             width: 45,
-              //             child: Image.asset("assets/images/google.png"),
-              //             height: 45,
-              //             decoration: BoxDecoration(
-              //                 color: Colors.white,
-              //                 borderRadius: BorderRadius.only(
-              //                     topLeft: Radius.circular(10),
-              //                     bottomLeft: Radius.circular(10))),
-              //           ),
-              //           Expanded(
-              //             child: Center(
-              //               child: Padding(
-              //                 padding: const EdgeInsets.all(12),
-              //                 child: Text(
-              //                   "Sign In With Google",
-              //                   style: TextStyle(
-              //                       fontSize: 18, fontWeight: FontWeight.bold),
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       )),
-              // ),
               Divider(),
               _buildPhoneTF(),
               GestureDetector(
                 onTap: () {
-                  controller.signInWithPhone(
-                      controller.phoneController.text.toString());
+                  if (controller.phoneController.text.toString() == "") {
+                    
+                    Get.snackbar('Error',
+                        "Invalid Number, your number cannot be empty",
+                        isDismissible: true,
+                        titleText: Text(
+                          "Error",
+                        ),
+                        duration: Duration(seconds: 10));
+                  } else {
+                    controller.handleSignIn(
+                        controller.phoneController.text.toString());
+                          controller.getSnack();
+
+                  }
+
                   // Get.toNamed("/otp",
                   //     arguments: controller.phoneController.text.toString());
                   //Get.snackbar('Signed Out', 'Sad to see you going...');

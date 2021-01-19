@@ -38,6 +38,7 @@ class SignalsHistoryView extends GetView<SignalsHistoryController> {
                   .map((DocumentSnapshot document) {
                 return new ClosedSignalCard(
                   myindex: document.id,
+                  sid: document.data()['sid'],
                   controller: _controller,
                   pair: document.data()['pair'],
                   price: document.data()['price'],

@@ -25,8 +25,10 @@ class OtpView extends GetView<OtpController> {
 
   @override
   Widget build(BuildContext context) {
-    _authController.handleSignIn(SignInType.PHONE,phoneNumber);
+    _authController.handleSignIn(phoneNumber);
+    
     return Scaffold(
+      
         backgroundColor: MyTheme().bcBackground,
         appBar: AppBar(
           title: Text('PhoneView'),

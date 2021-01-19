@@ -1,3 +1,5 @@
+import 'package:bluechip/app/modules/popfeed/views/popfeed_view.dart';
+import 'package:bluechip/app/modules/popfeed/bindings/popfeed_binding.dart';
 import 'package:bluechip/app/modules/thisweekevents/views/thisweekevents_view.dart';
 import 'package:bluechip/app/modules/thisweekevents/bindings/thisweekevents_binding.dart';
 import 'package:bluechip/app/modules/tomoroevents/views/tomoroevents_view.dart';
@@ -232,6 +234,11 @@ class AppPages {
       name: Routes.THISWEEKEVENTS,
       page: () => ThisweekeventsView(),
       binding: ThisweekeventsBinding(),
+    ),
+    GetPage(
+      name: Routes.POPFEED, 
+      page:()=> PopularFeed1(), 
+      binding: PopfeedBinding(),
     ),
   ];
 }

@@ -52,6 +52,18 @@ class AuthController extends GetxController {
     return _auth.authStateChanges();
   }
 
+  getSnack() {
+    Get.snackbar(
+      "Signing In",
+      "Loading",
+      showProgressIndicator: true,
+      isDismissible: true,
+      borderRadius: 10,
+      progressIndicatorBackgroundColor: Color(0xFF38A6DD),
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+
   Future signInWithPhone(String phoneNum) async {
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNum,
@@ -86,7 +98,9 @@ class AuthController extends GetxController {
         },
         verificationFailed: (FirebaseAuthException e) {
           print(e.message);
-          Get.snackbar('Error', e.message,
+          Get.back();
+          Get.snackbar('Error',
+              "Invalid Number, make sure you include your country code starting with a '+'",
               isDismissible: true,
               titleText: Text(
                 "Error",
@@ -94,8 +108,18 @@ class AuthController extends GetxController {
               duration: Duration(seconds: 20));
         },
         codeSent: (String verficationID, int resendToken) {
+          Get.back();
+          Get.snackbar('Success', "SMS Sent!",
+              isDismissible: true,
+              titleText: Text(
+                "Success",
+              ),
+              duration: Duration(seconds: 10));
           _verificationCode = verficationID;
-          Get.toNamed("/otp", arguments: phoneController.text.toString());
+          Future.delayed(const Duration(seconds: 2), () {
+            Get.toNamed("/otp", arguments: phoneController.text.toString());
+          });
+          //Get.toNamed("/otp", arguments: phoneController.text.toString());
         },
         codeAutoRetrievalTimeout: (String verificationID) {},
         timeout: Duration(seconds: 60));
@@ -119,14 +143,12 @@ class AuthController extends GetxController {
               Get.toNamed("/confirmdetails",
                   arguments: phoneController.text.toString());
               print('Document doesnt exists on the database');
-            }else{
+            } else {
               Get.toNamed("/confirmdetails",
                   arguments: phoneController.text.toString());
               print('Document exists on the database');
             }
           });
-
-          ;
 
           // return Get.offAllNamed("/confirmdetails");
         }
@@ -150,25 +172,19 @@ class AuthController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    Get.isSnackbarOpen ? Get.back() : Get.back();
+  }
 
   handleAuthChanged(isLoggedIn) {
     if (isLoggedIn == false) {
       Get.offAllNamed("/auth");
-    } else {
-      Get.offAllNamed("/home");
     }
   }
 
-  handleSignIn(SignInType type, String phoneNum) async {
-    //
+  handleSignIn(String phoneNum) async {
     try {
-      if (type == SignInType.PHONE) {
-        await signInWithPhone(phoneNum);
-      }
-      if (type == SignInType.GOOGLE) {
-        await signInWithGoogle();
-      }
+      await signInWithPhone(phoneNum);
     } catch (e) {
       Get.back();
       Get.defaultDialog(title: "Error", middleText: e.message, actions: [
@@ -208,7 +224,10 @@ class AuthController extends GetxController {
         .set({
           'dname': 'Add your name',
           'email': 'add email',
-          'subscription': "Free", // John Doe
+          'phone': user.phoneNumber,
+          'subscription': 0,
+          'signalsnotifs': true
+          // John Doe
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));

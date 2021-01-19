@@ -37,4 +37,6 @@ abstract class Routes{
   static const TODAYEVENTS = '/todayevents';
   static const TOMOROEVENTS = '/tomoroevents';
   static const THISWEEKEVENTS = '/thisweekevents';
+  static const FEED = '/feed';
+  static const POPFEED = '/popfeed';
 }
